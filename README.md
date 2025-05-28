@@ -41,4 +41,4 @@ MIT
 
 ## Author
 
-tj@binarykungfu.net
+[binarykungfu](https://gitlab.com/your-gitlab-username)
