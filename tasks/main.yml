@@ -1,0 +1,53 @@
+---
+- name: Install KVM and supporting packages
+  dnf:
+    name:
+      - qemu-kvm
+      - libvirt
+      - virt-install
+      - virt-manager
+      - bridge-utils
+      - cockpit
+      - cockpit-machines
+    state: present
+
+- name: Enable and start libvirtd
+  systemd:
+    name: libvirtd
+    enabled: true
+    state: started
+
+- name: Enable and start cockpit
+  systemd:
+    name: cockpit.socket
+    enabled: true
+    state: started
+
+- name: Add user to virtualization groups
+  user:
+    name: "{{ kvm_user }}"
+    groups: libvirt,kvm
+    append: yes
+
+- name: Configure bridge network
+  template:
+    src: ifcfg-bridge.j2
+    dest: "/etc/sysconfig/network-scripts/ifcfg-{{ bridge_name }}"
+
+- name: Configure physical interface to use bridge
+  template:
+    src: ifcfg-physical.j2
+    dest: "/etc/sysconfig/network-scripts/ifcfg-{{ bridge_interface }}"
+
+- name: Restart NetworkManager
+  systemd:
+    name: NetworkManager
+    state: restarted
+
+- name: Enable and start default libvirt network
+  command: virsh net-autostart default
+  ignore_errors: true
+
+- name: Start default libvirt network
+  command: virsh net-start default
+  ignore_errors: true

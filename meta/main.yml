@@ -1,0 +1,9 @@
+---
+galaxy_info:
+  role_name: kvm_host
+  author: your_name
+  description: Set up a RHEL 9 system as a KVM virtualization host
+  platforms:
+    - name: EL
+      versions: [9]
+  license: MIT
