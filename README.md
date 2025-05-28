@@ -41,4 +41,4 @@ MIT
 
 ## Author
 
-[binarykungfu](https://gitlab.com/your-gitlab-username)
+[binarykungfu](https://github.com/your-gitlab-username)
